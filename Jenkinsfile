@@ -7,8 +7,9 @@ pipeline{
     }
     
         stages{
-            when {expression { params.action == 'create'} }
+          
             stage ('git checkout'){
+                when {expression { params.action == 'create'} }
                 steps{
                 gitCheckout (
                     branch: "master",
@@ -23,14 +24,14 @@ pipeline{
                     }
             }
         }
-        //     stage ('Integration test'){
-        //      when {expression { params.action == 'create'} }
-        //         steps{
-        //             script{
-        //             mvnIntegrationTest()
-        //             }
-        //     }
-        // }
+            stage ('Integration test'){
+             when {expression { params.action == 'create'} }
+                steps{
+                    script{
+                    mvnIntegrationTest()
+                    }
+            }
+        }
             stage ('Static Code Analysis'){
                 steps{
                     script{
