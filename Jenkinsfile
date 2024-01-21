@@ -1,3 +1,4 @@
+@Library('mySharedLibrary') _
 pipeline{
     
     agent any
@@ -7,7 +8,9 @@ pipeline{
             stage ('git checkout'){
             steps{
                 script{
-                    git 'https://github.com/rajan612/jenkins-shared-lib-java-cicd.git'
+                    gitCheckout ()
+                       branch: "master"
+                       url: "https://github.com/rajan612/jenkins-shared-lib-java-cicd.git"
                 }
             }
         }
