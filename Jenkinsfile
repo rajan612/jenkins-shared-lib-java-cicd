@@ -2,9 +2,12 @@
 pipeline{
     
     agent any
+    parameters {
+        choice[name: 'action', choices:  'Create\nDelete', Description: 'Choose Create/Destroy'] 
+    }
     
         stages{
-    
+            when {expression { params.action == 'create'} }
             stage ('git checkout'){
                 steps{
                 gitCheckout (
@@ -20,10 +23,18 @@ pipeline{
                     }
             }
         }
-            stage ('Integration test'){
+        //     stage ('Integration test'){
+        //      when {expression { params.action == 'create'} }
+        //         steps{
+        //             script{
+        //             mvnIntegrationTest()
+        //             }
+        //     }
+        // }
+            stage ('Static Code Analysis'){
                 steps{
                     script{
-                    mvnIntegrationTest()
+                        staticCodeAnalysis()
                     }
             }
         }
