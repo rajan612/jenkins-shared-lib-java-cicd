@@ -3,13 +3,13 @@ pipeline{
     
     agent any
     parameters {
-        choice(name: 'action', choices:  'Create\nDelete', Description: 'Choose Create/Destroy') 
+        choice(name: 'action', choices: 'Create\nDelete', Description: 'Choose Create/Destroy') 
     }
     
         stages{
           
             stage ('git checkout'){
-                when {expression { param.action == 'create'} }
+                when { expression { params.action == 'create'} }
                 steps{
                 gitCheckout (
                     branch: "master",
@@ -24,8 +24,8 @@ pipeline{
                     }
             }
         }
-            stage ('Integration test'){
-             when {expression { param.action == 'create'} }
+            stage ('Integration test Maven'){
+             when { expression { params.action == 'create'} }
                 steps{
                     script{
                     mvnIntegrationTest()
