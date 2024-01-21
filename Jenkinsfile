@@ -9,7 +9,7 @@ pipeline{
             steps{
                 script{
                     gitCheckout ()
-                       branch: "master"
+                       branch: "master",
                        url: "https://github.com/rajan612/jenkins-shared-lib-java-cicd.git"
                 }
             }
