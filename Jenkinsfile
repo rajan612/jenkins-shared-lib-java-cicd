@@ -54,7 +54,7 @@ pipeline{
                     }
             }
         }
-            stage ('Mavwen Build: maven'){
+            stage ('Maven Build: maven'){
              when { expression { params.action == 'Create'} }
                 steps{
 
