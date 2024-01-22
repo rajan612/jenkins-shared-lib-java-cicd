@@ -1,4 +1,4 @@
-def cell(credentialsId){
+def call(credentialsId){
     waitForQualityGate abortPipeline: false, credentialsId: credentialsId
 }
 
