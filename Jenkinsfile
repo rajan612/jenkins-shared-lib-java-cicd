@@ -34,13 +34,15 @@ pipeline{
         }
             stage ('Static Code Analysis'){
                 steps{
+                 when { expression { params.action == 'create'} }
                     script{
                         def SonarQubecredentialsId = 'Jenkinsnew'
                         staticCodeAnalysis(SonarQubecredentialsId)
                     }
             }
         }
-            stage ('Quality Gate Status Check'){
+            stage ('Quality Gate Status Check: SonarQube'){
+             when { expression { params.action == 'create'} }
                 steps{
                     script{
                         def SonarQubecredentialsId = 'Jenkinsnew'
