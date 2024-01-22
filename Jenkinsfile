@@ -33,8 +33,8 @@ pipeline{
             }
         }
             stage ('Static Code Analysis'){
-                steps{
-                 when { expression { params.action == 'create'} }
+             when { expression { params.action == 'create'} }
+                steps{             
                     script{
                         def SonarQubecredentialsId = 'Jenkinsnew'
                         staticCodeAnalysis(SonarQubecredentialsId)
@@ -44,6 +44,7 @@ pipeline{
             stage ('Quality Gate Status Check: SonarQube'){
              when { expression { params.action == 'create'} }
                 steps{
+
                     script{
                         def SonarQubecredentialsId = 'Jenkinsnew'
                         qualityGateStatus(SonarQubecredentialsId)
