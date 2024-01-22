@@ -9,7 +9,7 @@ pipeline{
         stages{
           
             stage ('git checkout'){
-                when { expression { params.action == 'create'} }
+                when { expression { params.action == 'Create'} }
                 steps{
                 gitCheckout (
                     branch: "master",
@@ -25,7 +25,7 @@ pipeline{
             }
         }
             stage ('Integration test Maven'){
-             when { expression { params.action == 'create'} }
+             when { expression { params.action == 'Create'} }
                 steps{
                     script{
                     mvnIntegrationTest()
@@ -33,7 +33,7 @@ pipeline{
             }
         }
             stage ('Static Code Analysis'){
-             when { expression { params.action == 'create'} }
+             when { expression { params.action == 'Create'} }
                 steps{             
                     script{
                         def SonarQubecredentialsId = 'Jenkinsnew'
@@ -42,7 +42,7 @@ pipeline{
             }
         }
             stage ('Quality Gate Status Check: SonarQube'){
-             when { expression { params.action == 'create'} }
+             when { expression { params.action == 'Create'} }
                 steps{
 
                     script{
