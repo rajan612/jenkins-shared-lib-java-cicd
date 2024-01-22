@@ -40,5 +40,14 @@ pipeline{
                     }
             }
         }
+            stage ('Quality Gate Status Check'){
+                steps{
+                    script{
+                        def SonarQubecredentialsId = 'Jenkinsnew'
+                        qualityGateStatus(SonarQubecredentialsId)
+                    }
+            }
+        }
+
 }
 }
