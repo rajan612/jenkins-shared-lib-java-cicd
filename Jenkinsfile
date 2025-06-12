@@ -17,11 +17,9 @@ pipeline {
             steps{
                 script{
                     mvnTest()
-                }
-            }
-                script{
                     mvnBuild()
                 }
+            }
         }
         stage ('Maven Build'){
             steps{
