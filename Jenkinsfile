@@ -27,7 +27,7 @@ pipeline {
                 }
             }
         }
-        stage ('Static Code Analysis:SonarQube){
+        stage ('Static Code Analysis:SonarQube'){
             steps{
                 script{
                     staticCodeAnalysis()
