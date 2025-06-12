@@ -19,7 +19,6 @@ pipeline {
                     mvnTest()
                 }
             }
-{
                 script{
                     mvnBuild()
                 }
