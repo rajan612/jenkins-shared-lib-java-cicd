@@ -34,6 +34,7 @@ pipeline {
                     staticCodeAnalysis(SonarqubecredentialsId)
                 }
             }
+        }
         stage ('Quality Gate status check: SonarQube'){
             steps{
                 script{
