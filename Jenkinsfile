@@ -34,6 +34,13 @@ pipeline {
                     staticCodeAnalysis(SonarqubecredentialsId)
                 }
             }
+        stage ('Quality Gate status check: SonarQube'){
+            steps{
+                script{
+                    def SonarqubecredentialsId = 'sonar-token'
+                    qualityGateChec(SonarqubecredentialsId)
+                }
+            }
         }
     }
 }
