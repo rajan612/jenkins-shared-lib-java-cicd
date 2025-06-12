@@ -27,10 +27,10 @@ pipeline {
                 }
             }
         }
-        stage ('Static Code Analysis:SonarQube'){
+        stage ('Static Code Analysis:Sonarqube'){
             steps{
                 script{
-                    staticCodeAnalysis()
+                    staticCodeAnalysis('sonar-token')
                 }
             }
         }
