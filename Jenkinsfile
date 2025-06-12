@@ -17,7 +17,6 @@ pipeline {
             steps{
                 script{
                     mvnTest()
-                    mvnBuild()
                 }
             }
         }
@@ -25,6 +24,13 @@ pipeline {
             steps{
                 script{
                     mvnBuild()
+                }
+            }
+        }
+        stage ('Static Code Analysis:SonarQube){
+            steps{
+                script{
+                    staticCodeAnalysis()
                 }
             }
         }
