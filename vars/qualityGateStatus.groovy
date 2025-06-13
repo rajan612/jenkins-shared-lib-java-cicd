@@ -1,15 +1,20 @@
 def call(String credentialsId) {
     def ceTaskId = ''
     withSonarQubeEnv(credentialsId: credentialsId) {
-        def output = sh(script: 'mvn clean verify sonar:sonar', returnStdout: true)
-        def matcher = output =~ /ceTaskId=([a-z0-9\\-]+)/
-        if (matcher) {
-            ceTaskId = matcher[0][1]
-            echo "Extracted ceTaskId: ${ceTaskId}"
-        } else {
-            error("Could not extract ceTaskId from Maven output.")
-        }
-    }
+def output = sh(script: 'mvn clean verify sonar:sonar', returnStdout: true)
+echo "=== Maven Output ==="
+echo output
+
+// Try both known patterns for ceTaskId
+def matcher = output =~ /More information at https?:\/\/.*\/task\?id=([a-z0-9\-]+)/
+
+if (matcher?.find()) {
+    ceTaskId = matcher[0][1]
+    echo "✅ Extracted ceTaskId: ${ceTaskId}"
+} else {
+    error("❌ Could not extract ceTaskId from Maven output. Check if Sonar is running and reachable.")
+}
+
 
     sleep 10 // give SonarQube time to register
 
