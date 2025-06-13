@@ -5,22 +5,29 @@ def call(String credentialsId) {
 
     sleep 10
 
-    // Poll latest analysis by project key
-    // def response = httpRequest(
-    //     url: "http://54.227.45.93:9000/api/project_analyses/search?project=minikube-sample",
-    //     authentication: credentialsId
-    // )
-    def parsed = readJSON text: response.content
-    def analysisId = parsed.analyses[0].analysisKey
+    withCredentials([string(credentialsId: credentialsId, variable: 'SONAR_TOKEN')]) {
+        // Step 1: Get the latest analysisId
+        def response = sh(
+            script: """curl -s -H "Authorization: Bearer \$SONAR_TOKEN" \
+              "http://54.227.45.93:9000/api/project_analyses/search?project=minikube-sample" """,
+            returnStdout: true
+        ).trim()
 
-    def gateResponse = httpRequest(
-        url: "http://54.227.45.93:9000/api/qualitygates/project_status?analysisId=${analysisId}",
-        authentication: credentialsId
-    )
-    def gateStatus = readJSON text: gateResponse.content
+        def parsed = readJSON text: response
+        def analysisId = parsed.analyses[0].analysisKey
 
-    echo "Sonar Quality Gate: ${gateStatus.projectStatus.status}"
-    if (gateStatus.projectStatus.status != "OK") {
-        error("Quality Gate failed.")
+        // Step 2: Get quality gate status
+        def gateResponse = sh(
+            script: """curl -s -H "Authorization: Bearer \$SONAR_TOKEN" \
+              "http://54.227.45.93:9000/api/qualitygates/project_status?analysisId=${analysisId}" """,
+            returnStdout: true
+        ).trim()
+
+        def gateStatus = readJSON text: gateResponse
+
+        echo "Sonar Quality Gate: ${gateStatus.projectStatus.status}"
+        if (gateStatus.projectStatus.status != "OK") {
+            error("❌ Quality Gate failed.")
+        }
     }
 }
