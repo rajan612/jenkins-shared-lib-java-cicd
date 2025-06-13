@@ -1,7 +1,13 @@
 @Library('jenkins-shared-library') _
 pipeline {
     agent any
+    parameters {
+        String(Name: 'ImageName', Description: 'Name of the docker image', default: 'javaapp')
+        String(Name: 'ImageTag', Description: 'Tag of the docker image', default: 'v1')
+        String(Name: 'AppName', Description: 'App Name of the docker image', default: 'SpringBoot')
+        
 
+    }
     stages {
         stage('Git Checkout') {
             steps {
@@ -35,7 +41,7 @@ pipeline {
                 }
             }
         }
-        stage ('Quality Gate status check: SonarQube'){
+        stage ('Integration Test: SonarQube'){
             steps{
                 script{
                     def SonarqubecredentialsId = 'sonar-token'
@@ -43,10 +49,17 @@ pipeline {
                 }
             }
         }
-        stage ('Mvn Build'){
+        stage ('Mvn Build: Maven'){
             steps{
                 script{
                     mvnBuild()
+                }
+            }
+        }
+        stage ('Docker Image Build'){
+            steps{
+                script{
+                    dockerBuild("${params.ImageName}", "${params.ImageTag}", "${params.AppName}")
                 }
             }
         }
