@@ -6,10 +6,10 @@ def call(String credentialsId) {
     sleep 10
 
     // Poll latest analysis by project key
-    def response = httpRequest(
-        url: "http://54.227.45.93:9000/api/project_analyses/search?project=minikube-sample",
-        authentication: credentialsId
-    )
+    // def response = httpRequest(
+    //     url: "http://54.227.45.93:9000/api/project_analyses/search?project=minikube-sample",
+    //     authentication: credentialsId
+    // )
     def parsed = readJSON text: response.content
     def analysisId = parsed.analyses[0].analysisKey
 
