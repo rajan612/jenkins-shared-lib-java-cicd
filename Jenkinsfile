@@ -26,6 +26,13 @@ pipeline {
                 }
             }
         }
+        stage ('Clean Workspace'){
+            steps{
+                script{
+                    cleanWs()
+                }
+            }
+        }
         stage ('Maven Build'){
             steps{
                 script{
