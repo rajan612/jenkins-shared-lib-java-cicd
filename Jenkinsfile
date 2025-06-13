@@ -3,12 +3,20 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'ImageName', description: 'Name of the docker image', defaultValue: 'javaapp')
-        string(name: 'ImageTag', description: 'Tag of the docker image', defaultValue: 'v1')
-        string(name: 'AppName', description: 'App Name of the docker image', defaultValue: 'SpringBoot')
+        string(name: 'ImageName', defaultValue: 'javaapp', description: 'Docker image name')
+        string(name: 'ImageTag', defaultValue: 'v1', description: 'Docker image tag')
+        string(name: 'AppName', defaultValue: 'SpringBoot', description: 'App name')
     }
 
     stages {
+        stage('Clean Workspace') {
+            steps {
+                script {
+                    cleanWs() // standard Jenkins built-in
+                }
+            }
+        }
+
         stage('Git Checkout') {
             steps {
                 script {
@@ -20,18 +28,10 @@ pipeline {
             }
         }
 
-        stage ('Clean Workspace') {
-            steps {
-                script {
-                    cleanWs()
-                }
-            }
-        }
-
         stage('Maven Test') {
             steps {
                 script {
-                    mvnTest('sample')  // if pom.xml is inside "sample/" folder
+                    mvnTest()
                 }
             }
         }
@@ -39,7 +39,7 @@ pipeline {
         stage('Maven Build') {
             steps {
                 script {
-                    mvnBuild('sample') // same here
+                    mvnBuild()
                 }
             }
         }
