@@ -1,3 +1,5 @@
-def call(){
-    sh 'mvn clean install'
+def call(String path = '.') {
+    dir(path) {
+        sh 'mvn clean install'
+    }
 }
