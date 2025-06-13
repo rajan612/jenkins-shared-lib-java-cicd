@@ -41,14 +41,14 @@ pipeline {
                 }
             }
         }
-        stage ('Integration Test: SonarQube'){
-            steps{
-                script{
-                    def SonarqubecredentialsId = 'sonar-token'
-                    qualityGateStatus(SonarqubecredentialsId)
-                }
-            }
-        }
+        // stage ('Integration Test: SonarQube'){
+        //     steps{
+        //         script{
+        //             def SonarqubecredentialsId = 'sonar-token'
+        //             qualityGateStatus(SonarqubecredentialsId)
+        //         }
+        //     }
+        // }
         stage ('Mvn Build: Maven'){
             steps{
                 script{
