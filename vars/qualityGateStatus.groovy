@@ -6,7 +6,6 @@ def call(String credentialsId) {
     sleep 10
 
     withCredentials([string(credentialsId: credentialsId, variable: 'SONAR_TOKEN')]) {
-        // Step 1: Get the latest analysisId
         def response = sh(
             script: """curl -s -H "Authorization: Bearer \$SONAR_TOKEN" \
               "http://54.227.45.93:9000/api/project_analyses/search?project=minikube-sample" """,
@@ -14,9 +13,11 @@ def call(String credentialsId) {
         ).trim()
 
         def parsed = readJSON text: response
-        def analysisId = parsed.analyses[0].analysisKey
+        if (!parsed.analyses || !parsed.analyses[0]?.key) {
+            error "No analyses found for project minikube-sample"
+        }
+        def analysisId = parsed.analyses[0].key
 
-        // Step 2: Get quality gate status
         def gateResponse = sh(
             script: """curl -s -H "Authorization: Bearer \$SONAR_TOKEN" \
               "http://54.227.45.93:9000/api/qualitygates/project_status?analysisId=${analysisId}" """,
