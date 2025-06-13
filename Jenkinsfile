@@ -2,9 +2,9 @@
 pipeline {
     agent any
     parameters {
-        String(Name: 'ImageName', Description: 'Name of the docker image', default: 'javaapp')
-        String(Name: 'ImageTag', Description: 'Tag of the docker image', default: 'v1')
-        String(Name: 'AppName', Description: 'App Name of the docker image', default: 'SpringBoot')
+        string(Name: 'ImageName', Description: 'Name of the docker image', default: 'javaapp')
+        string(Name: 'ImageTag', Description: 'Tag of the docker image', default: 'v1')
+        string(Name: 'AppName', Description: 'App Name of the docker image', default: 'SpringBoot')
         
 
     }
