@@ -1,8 +1,9 @@
 def call(credentialsId) {
-    withSonarQubeEnv('rvashisht-sonarqube') {
-        sh 'mvn clean verify sonar:sonar'
+    withSonarQubeEnv(credentialsId: credentialsId) {
+        withMaven(maven: 'your-maven-install-name') {
+            sh 'mvn verify sonar:sonar'
+        }
     }
-    
-    // Must follow sonar:sonar
-waitForQualityGate abortPipeline: true
+
+    waitForQualityGate abortPipeline: true
 }
