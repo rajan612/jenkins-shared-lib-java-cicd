@@ -47,7 +47,7 @@ pipeline {
         stage('Static Code Analysis: SonarQube') {
             steps {
                 script {
-                    def SonarqubecredentialsId = 'sonar-token'
+                    def SonarqubecredentialsId = 'sonarqube-token'
                     staticCodeAnalysis(SonarqubecredentialsId)
                 }
             }
@@ -56,7 +56,7 @@ pipeline {
         stage('Integration Test: SonarQube') {
             steps {
                 script {
-                    def SonarqubecredentialsId = 'sonar-token'
+                    def SonarqubecredentialsId = 'sonarqube-token'
                     qualityGateStatus(SonarqubecredentialsId)
                 }
             }
